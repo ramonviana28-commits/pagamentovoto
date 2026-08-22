@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,6 +17,7 @@
       font-family: Arial, Helvetica, sans-serif;
       background: #f4f6f8;
       color: #222;
+      min-height: 100vh;
     }
 
     .container {
@@ -34,7 +36,7 @@
 
     .logo {
       text-align: center;
-      font-size: 42px;
+      font-size: 38px;
       margin-bottom: 8px;
     }
 
@@ -49,9 +51,10 @@
       color: #666;
       margin-bottom: 25px;
       line-height: 1.5;
+      font-size: 15px;
     }
 
-    .choice {
+    .choice-box {
       background: #f1f5f9;
       border-radius: 12px;
       padding: 15px;
@@ -59,142 +62,141 @@
     }
 
     .choice-label {
-      font-size: 13px;
       color: #64748b;
-      margin-bottom: 5px;
+      font-size: 13px;
+      margin-bottom: 4px;
     }
 
-    .choice-name {
+    .choice {
       font-size: 20px;
       font-weight: bold;
       color: #111827;
     }
 
-    .value-label {
+    .price-label {
       text-align: center;
       color: #666;
       font-size: 13px;
-      margin-top: 5px;
+      margin-top: 10px;
     }
 
-    .value {
+    .price {
       text-align: center;
-      font-size: 34px;
+      font-size: 32px;
       font-weight: bold;
-      margin: 4px 0 25px;
+      margin: 4px 0 20px;
       color: #111;
     }
 
     .status {
-      padding: 16px;
+      padding: 15px;
       border-radius: 10px;
       margin-top: 15px;
       line-height: 1.5;
-    }
-
-    .status.loading {
-      background: #eff6ff;
-      color: #1d4ed8;
+      font-size: 14px;
     }
 
     .status.success {
       background: #ecfdf5;
+      border: 1px solid #a7f3d0;
       color: #047857;
     }
 
     .status.error {
       background: #fef2f2;
+      border: 1px solid #fecaca;
       color: #b91c1c;
+    }
+
+    .status.loading {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
     }
 
     .status-title {
       font-weight: bold;
       margin-bottom: 8px;
+      font-size: 15px;
     }
 
-    .payment-area {
-      display: none;
-      margin-top: 20px;
-    }
-
-    .qr-container {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    #qrcode {
-      width: 220px;
-      height: 220px;
-      margin: 0 auto;
-      background: #fff;
+    .id-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
       padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
+      margin-top: 15px;
+      font-size: 11px;
+      color: #64748b;
+      word-break: break-all;
     }
 
-    .pix-label {
+    .pix-box {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .pix-title {
+      font-size: 18px;
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .pix-code {
       width: 100%;
-      min-height: 110px;
+      min-height: 120px;
       resize: vertical;
       padding: 12px;
       border: 1px solid #d1d5db;
       border-radius: 8px;
       font-size: 12px;
+      font-family: monospace;
       background: #f9fafb;
-      word-break: break-all;
     }
 
     .copy-button {
       width: 100%;
-      border: none;
-      background: #111;
-      color: #fff;
+      border: 0;
+      border-radius: 10px;
       padding: 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
       margin-top: 10px;
+      background: #111827;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     .copy-button:hover {
-      opacity: 0.9;
+      background: #000;
     }
 
     .footer {
       text-align: center;
       color: #888;
       font-size: 12px;
-      margin-top: 20px;
+      margin-top: 18px;
     }
 
-    .debug {
-      margin-top: 20px;
-      padding: 10px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 11px;
-      color: #64748b;
-      word-break: break-all;
+    .hidden {
+      display: none;
     }
 
-    @media (max-width: 480px) {
-      .container {
-        padding: 15px 10px 40px;
-      }
+    .spinner {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(29, 78, 216, 0.25);
+      border-top-color: #1d4ed8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
 
-      .card {
-        padding: 20px 15px;
-      }
-
-      h1 {
-        font-size: 23px;
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
       }
     }
   </style>
@@ -215,83 +217,69 @@
         para confirmar sua participação.
       </div>
 
-      <div class="choice">
-
+      <!-- ESCOLHA -->
+      <div class="choice-box">
         <div class="choice-label">
           Sua escolha
         </div>
 
-        <div
-          class="choice-name"
-          id="choiceName">
+        <div class="choice" id="choice">
           Carregando...
         </div>
-
       </div>
 
-      <div class="value-label">
+      <!-- VALOR -->
+      <div class="price-label">
         Valor para confirmar o voto
       </div>
 
-      <div class="value">
+      <div class="price">
         R$ 5,00
       </div>
 
-      <div
-        id="status"
-        class="status loading">
-
+      <!-- STATUS -->
+      <div id="status" class="status loading">
         <div class="status-title">
+          <span class="spinner"></span>
           Processando...
         </div>
 
         <div id="statusMessage">
-          Estamos preparando seu pagamento.
+          Identificando sua escolha.
         </div>
-
       </div>
 
-      <div
-        id="paymentArea"
-        class="payment-area">
-
-        <div class="qr-container">
-
-          <img
-            id="qrcode"
-            src=""
-            alt="QR Code PIX">
-
+      <!-- IDENTIFICADOR -->
+      <div class="id-box">
+        <strong>payment_option_id:</strong>
+        <div id="paymentOptionId">
+          -
         </div>
+      </div>
 
-        <div class="pix-label">
-          PIX copia e cola
+      <!-- PIX -->
+      <div id="pixBox" class="pix-box hidden">
+
+        <div class="pix-title">
+          PIX para pagamento
         </div>
 
         <textarea
           id="pixCode"
           class="pix-code"
-          readonly></textarea>
+          readonly
+          placeholder="O código PIX aparecerá aqui."
+        ></textarea>
 
         <button
+          id="copyButton"
           class="copy-button"
-          onclick="copiarPix()">
-
-          📋 Copiar PIX
-
+          type="button"
+          onclick="copiarPix()"
+        >
+          Copiar código PIX
         </button>
 
-      </div>
-
-      <!--
-        Área temporária de diagnóstico.
-
-        Depois que tudo estiver funcionando,
-        podemos remover esta área.
-      -->
-      <div
-        id="debug"
-        class="debug">
       </div>
 
     </div>
@@ -310,12 +298,16 @@
      * CONFIGURAÇÃO
      * ==========================================================
      *
-     * NÃO coloque a chave secreta do Asaas aqui.
+     * NÃO coloque a chave secreta da Asaas neste arquivo.
      *
-     * O navegador nunca deve receber a chave secreta.
+     * Se você já possui uma API/Edge Function responsável por
+     * criar o pagamento, coloque a URL dela aqui.
      *
-     * Posteriormente vamos colocar aqui somente a URL
-     * pública da nossa Edge Function do Supabase.
+     * Exemplo:
+     *
+     * const PAYMENT_API_URL =
+     *   "https://SEU-PROJETO.supabase.co/functions/v1/criar-pagamento";
+     *
      */
 
     const PAYMENT_API_URL = "";
@@ -323,70 +315,210 @@
 
     /*
      * ==========================================================
-     * VALOR DO VOTO
+     * IDENTIFICADORES DAS OPÇÕES
      * ==========================================================
+     *
+     * Estes identificadores vêm do Tally através de:
+     *
+     * ?payment_option_id=@payment_option_id
+     *
      */
 
-    const PAYMENT_VALUE = 5.00;
+    const OPTIONS = {
+
+      lula: {
+        id: "9823e037-4045-40dd-8b5f-a183ea4cdc44",
+        name: "LULA"
+      },
+
+      flavio: {
+        /*
+         * O início do ID aparece no seu Tally.
+         * O restante pode ser completado automaticamente
+         * porque usamos startsWith().
+         */
+        prefix: "1b457898-2a19-4342-a5f6-2a867b07",
+        name: "FLÁVIO BOLSONARO"
+      },
+
+      renan: {
+        prefix: "4debd19b-bf23-4a04-ae44-daa9c05f",
+        name: "RENAN SANTOS"
+      }
+
+    };
 
 
     /*
      * ==========================================================
-     * LENDO O PAYMENT_OPTION_ID DA URL
+     * LER PARÂMETROS DA URL
      * ==========================================================
-     *
-     * Exemplo:
-     *
-     * pagamento.html?payment_option_id=9823e037-4045-40dd-8b5f-a183ea4cdc44
      */
 
     const params = new URLSearchParams(window.location.search);
 
     const paymentOptionId =
-      params.get("payment_option_id");
+      params.get("payment_option_id") ||
+      params.get("paymentOptionId") ||
+      params.get("option_id") ||
+      "";
+
+
+    /*
+     * Também aceitamos "choice" caso posteriormente
+     * você queira enviar diretamente o nome pelo Tally.
+     *
+     * Exemplo:
+     *
+     * ?payment_option_id=...&choice=LULA
+     */
+
+    const directChoice =
+      params.get("choice") ||
+      params.get("vote") ||
+      params.get("escolha") ||
+      "";
 
 
     /*
      * ==========================================================
-     * ELEMENTOS DA PÁGINA
+     * ELEMENTOS
      * ==========================================================
      */
 
-    const choiceName =
-      document.getElementById("choiceName");
+    const choiceElement =
+      document.getElementById("choice");
 
-    const status =
+    const statusElement =
       document.getElementById("status");
 
-    const statusMessage =
+    const statusMessageElement =
       document.getElementById("statusMessage");
 
-    const paymentArea =
-      document.getElementById("paymentArea");
+    const paymentOptionIdElement =
+      document.getElementById("paymentOptionId");
+
+    const pixBox =
+      document.getElementById("pixBox");
 
     const pixCode =
       document.getElementById("pixCode");
 
-    const qrcode =
-      document.getElementById("qrcode");
 
-    const debug =
-      document.getElementById("debug");
+    /*
+     * ==========================================================
+     * DESCOBRIR A ESCOLHA
+     * ==========================================================
+     */
+
+    function getChoice(id) {
+
+      /*
+       * Se o Tally futuramente enviar diretamente o nome,
+       * damos preferência a ele.
+       */
+
+      if (directChoice) {
+
+        return decodeURIComponent(directChoice)
+          .trim()
+          .toUpperCase();
+
+      }
+
+
+      /*
+       * LULA
+       */
+
+      if (id === OPTIONS.lula.id) {
+
+        return OPTIONS.lula.name;
+
+      }
+
+
+      /*
+       * FLÁVIO BOLSONARO
+       */
+
+      if (
+        OPTIONS.flavio.prefix &&
+        id.startsWith(OPTIONS.flavio.prefix)
+      ) {
+
+        return OPTIONS.flavio.name;
+
+      }
+
+
+      /*
+       * RENAN SANTOS
+       */
+
+      if (
+        OPTIONS.renan.prefix &&
+        id.startsWith(OPTIONS.renan.prefix)
+      ) {
+
+        return OPTIONS.renan.name;
+
+      }
+
+
+      return null;
+    }
 
 
     /*
      * ==========================================================
-     * FUNÇÃO PARA MOSTRAR STATUS
+     * ATUALIZAR INTERFACE
      * ==========================================================
      */
 
-    function showStatus(type, title, message) {
+    function showError(message) {
 
-      status.className = "status " + type;
+      statusElement.className =
+        "status error";
 
-      status.innerHTML = `
+      statusElement.innerHTML = `
         <div class="status-title">
-          ${title}
+          Não foi possível continuar.
+        </div>
+
+        <div>
+          ${message}
+        </div>
+      `;
+    }
+
+
+    function showSuccess(message) {
+
+      statusElement.className =
+        "status success";
+
+      statusElement.innerHTML = `
+        <div class="status-title">
+          Escolha recebida corretamente!
+        </div>
+
+        <div>
+          ${message}
+        </div>
+      `;
+    }
+
+
+    function showLoading(message) {
+
+      statusElement.className =
+        "status loading";
+
+      statusElement.innerHTML = `
+        <div class="status-title">
+          <span class="spinner"></span>
+          Processando...
         </div>
 
         <div>
@@ -398,158 +530,100 @@
 
     /*
      * ==========================================================
-     * IDENTIFICAÇÃO TEMPORÁRIA DA OPÇÃO
-     * ==========================================================
-     *
-     * Neste momento temos certeza de que o Tally está enviando
-     * corretamente o ID.
-     *
-     * Para LULA, por exemplo:
-     *
-     * 9823e037-4045-40dd-8b5f-a183ea4cdc44
-     *
-     * Os outros IDs não serão inventados aqui.
-     *
-     * Posteriormente o Supabase poderá consultar uma tabela
-     * com todos os candidatos.
-     */
-
-    function identificarEscolha(id) {
-
-      if (!id) {
-        return "Nenhuma opção informada";
-      }
-
-      /*
-       * ID confirmado no teste do Tally.
-       */
-
-      if (
-        id === "9823e037-4045-40dd-8b5f-a183ea4cdc44"
-      ) {
-
-        return "LULA";
-
-      }
-
-
-      /*
-       * Se ainda não tivermos cadastrado o ID,
-       * mostramos uma mensagem genérica.
-       */
-
-      return "Opção selecionada";
-
-
-    }
-
-
-    /*
-     * ==========================================================
-     * VERIFICAÇÃO INICIAL
+     * INICIALIZAÇÃO
      * ==========================================================
      */
 
-    function iniciar() {
+    async function iniciar() {
 
       /*
-       * Não existe parâmetro.
+       * Nenhuma opção enviada.
        */
 
-      if (!paymentOptionId) {
+      if (!paymentOptionId && !directChoice) {
 
-        choiceName.textContent =
-          "Nenhuma escolha foi informada";
+        choiceElement.textContent =
+          "Nenhuma escolha";
 
-        showStatus(
-          "error",
-          "Não foi possível gerar o pagamento.",
-          "Nenhuma opção de voto foi informada."
+        showError(
+          "Nenhuma opção de voto foi informada. " +
+          "Volte ao formulário e selecione uma opção."
         );
 
-        debug.innerHTML =
-          "URL sem payment_option_id.";
-
         return;
-
       }
 
 
       /*
-       * Existe parâmetro.
+       * Exibir ID recebido.
        */
 
-      const nome =
-        identificarEscolha(paymentOptionId);
-
-      choiceName.textContent =
-        nome;
+      paymentOptionIdElement.textContent =
+        paymentOptionId || "(enviado diretamente)";
 
 
       /*
-       * Mostra temporariamente o ID recebido.
+       * Descobrir nome.
+       */
+
+      const choice =
+        getChoice(paymentOptionId);
+
+
+      /*
+       * Se conseguimos identificar.
+       */
+
+      if (choice) {
+
+        choiceElement.textContent =
+          choice;
+
+        showSuccess(
+          "O sistema recebeu o identificador da sua escolha. " +
+          "A próxima etapa será gerar o PIX."
+        );
+
+      }
+
+      /*
+       * Caso não reconheça o UUID.
+       */
+
+      else {
+
+        choiceElement.textContent =
+          "Opção selecionada";
+
+        showError(
+          "O identificador da escolha foi recebido, " +
+          "mas ainda não está associado a uma opção conhecida."
+        );
+
+        return;
+      }
+
+
+      /*
+       * ========================================================
+       * GERAÇÃO DO PAGAMENTO
+       * ========================================================
        *
-       * Isso será removido quando terminarmos os testes.
-       */
-
-      debug.innerHTML =
-        "<strong>payment_option_id recebido:</strong><br>" +
-        paymentOptionId;
-
-
-      /*
-       * Se ainda não configuramos a API,
-       * não tentamos chamar o Asaas.
+       * Só executa se PAYMENT_API_URL estiver configurada.
        */
 
       if (!PAYMENT_API_URL) {
 
-        showStatus(
-          "success",
-          "Escolha recebida corretamente!",
-          "O sistema recebeu o identificador da sua escolha. A próxima etapa será gerar o PIX."
-        );
-
         return;
-
       }
 
 
-      /*
-       * Se a API estiver configurada,
-       * cria o pagamento.
-       */
-
-      criarPagamento();
-
-    }
-
-
-    /*
-     * ==========================================================
-     * CRIAR PAGAMENTO
-     * ==========================================================
-     *
-     * Esta função será usada quando criarmos a Edge Function
-     * do Supabase.
-     *
-     * O navegador envia somente:
-     *
-     * payment_option_id
-     *
-     * e o backend conversa com o Asaas.
-     */
-
-    async function criarPagamento() {
-
-      showStatus(
-        "loading",
-        "Gerando pagamento...",
-        "Aguarde enquanto preparamos seu PIX."
-      );
-
-
       try {
+
+        showLoading(
+          "Gerando seu pagamento PIX..."
+        );
+
 
         const response =
           await fetch(PAYMENT_API_URL, {
@@ -565,8 +639,11 @@
               payment_option_id:
                 paymentOptionId,
 
+              choice:
+                choice,
+
               amount:
-                PAYMENT_VALUE
+                5.00
 
             })
 
@@ -580,65 +657,66 @@
         if (!response.ok) {
 
           throw new Error(
-            data.message ||
-            "Erro ao criar pagamento."
+            data?.error ||
+            data?.message ||
+            "Erro ao gerar o pagamento."
           );
 
         }
 
 
         /*
-         * ======================================================
-         * RESPOSTA ESPERADA DO BACKEND
-         * ======================================================
-         *
-         * {
-         *   success: true,
-         *   payment_id: "...",
-         *   pix_code: "...",
-         *   qr_code: "data:image/png;base64,..."
-         * }
-         *
+         * Procuramos alguns nomes comuns de retorno
+         * para facilitar a integração com a função.
          */
 
+        const pix =
+          data.pixCopyPaste ||
+          data.pix_copy_paste ||
+          data.pixCode ||
+          data.pix_code ||
+          data.qrCode ||
+          data.qr_code ||
+          data.payment?.pixCopyPaste ||
+          data.payment?.pix_copy_paste ||
+          "";
 
-        if (data.qr_code) {
 
-          qrcode.src =
-            data.qr_code;
+        if (pix) {
+
+          pixCode.value = pix;
+
+          pixBox.classList.remove("hidden");
+
+          showSuccess(
+            "Pagamento PIX gerado. " +
+            "Copie o código abaixo e efetue o pagamento."
+          );
+
+        }
+
+        else {
+
+          showSuccess(
+            "Pagamento criado com sucesso. " +
+            "Aguarde as instruções de pagamento."
+          );
 
         }
 
 
-        if (data.pix_code) {
+      }
 
-          pixCode.value =
-            data.pix_code;
+      catch (error) {
 
-        }
-
-
-        paymentArea.style.display =
-          "block";
-
-
-        showStatus(
-          "success",
-          "PIX gerado!",
-          "Escaneie o QR Code ou copie o código PIX para realizar o pagamento."
+        console.error(
+          "Erro ao gerar pagamento:",
+          error
         );
 
-
-      } catch (error) {
-
-        console.error(error);
-
-
-        showStatus(
-          "error",
-          "Não foi possível gerar o pagamento.",
+        showError(
           error.message ||
-          "Ocorreu um erro ao preparar o PIX."
+          "Não foi possível gerar o pagamento PIX."
         );
 
       }
@@ -654,15 +732,11 @@
 
     async function copiarPix() {
 
-      const codigo =
+      const code =
         pixCode.value.trim();
 
 
-      if (!codigo) {
-
-        alert(
-          "O código PIX ainda não está disponível."
-        );
+      if (!code) {
 
         return;
 
@@ -671,25 +745,31 @@
 
       try {
 
-        await navigator.clipboard.writeText(
-          codigo
-        );
+        await navigator.clipboard.writeText(code);
 
-        alert(
-          "PIX copiado com sucesso!"
-        );
+        const button =
+          document.getElementById("copyButton");
 
-      } catch (error) {
+        const original =
+          button.textContent;
+
+        button.textContent =
+          "✓ PIX copiado!";
+
+        setTimeout(() => {
+
+          button.textContent =
+            original;
+
+        }, 2000);
+
+      }
+
+      catch (error) {
 
         pixCode.select();
 
-        document.execCommand(
-          "copy"
-        );
-
-        alert(
-          "PIX copiado!"
-        );
+        document.execCommand("copy");
 
       }
 
@@ -698,7 +778,7 @@
 
     /*
      * ==========================================================
-     * INICIAR PÁGINA
+     * EXECUTAR
      * ==========================================================
      */
 
@@ -708,3 +788,4 @@
 
 </body>
 </html>
+```
