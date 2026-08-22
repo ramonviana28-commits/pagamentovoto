@@ -1,791 +1,892 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Pagamento do voto</title>
+    <title>Pagamento do voto</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      color: #222;
-      min-height: 100vh;
-    }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 15px;
+            color: #111827;
+        }
 
-    .container {
-      width: 100%;
-      max-width: 520px;
-      margin: 0 auto;
-      padding: 25px 15px 50px;
-    }
+        .container {
+            width: 100%;
+            max-width: 440px;
+        }
 
-    .card {
-      background: #fff;
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
-    }
+        .card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 30px 22px 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
 
-    .logo {
-      text-align: center;
-      font-size: 38px;
-      margin-bottom: 8px;
-    }
+        .icon {
+            text-align: center;
+            font-size: 46px;
+            margin-bottom: 8px;
+        }
 
-    h1 {
-      text-align: center;
-      margin: 0 0 8px;
-      font-size: 25px;
-    }
+        h1 {
+            text-align: center;
+            margin: 0 0 8px;
+            font-size: 25px;
+            color: #111111;
+        }
 
-    .subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 25px;
-      line-height: 1.5;
-      font-size: 15px;
-    }
+        .subtitle {
+            text-align: center;
+            color: #667085;
+            line-height: 1.45;
+            margin: 0 0 25px;
+            font-size: 15px;
+        }
 
-    .choice-box {
-      background: #f1f5f9;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
+        .choice-box {
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
 
-    .choice-label {
-      color: #64748b;
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
+        .choice-label {
+            display: block;
+            color: #667085;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
 
-    .choice {
-      font-size: 20px;
-      font-weight: bold;
-      color: #111827;
-    }
+        .choice-name {
+            display: block;
+            color: #111827;
+            font-size: 20px;
+            font-weight: 700;
+        }
 
-    .price-label {
-      text-align: center;
-      color: #666;
-      font-size: 13px;
-      margin-top: 10px;
-    }
+        .price-label {
+            text-align: center;
+            color: #667085;
+            font-size: 13px;
+            margin-top: 10px;
+        }
 
-    .price {
-      text-align: center;
-      font-size: 32px;
-      font-weight: bold;
-      margin: 4px 0 20px;
-      color: #111;
-    }
+        .price {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: #111111;
+            margin: 3px 0 20px;
+        }
 
-    .status {
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-      line-height: 1.5;
-      font-size: 14px;
-    }
+        .message {
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
 
-    .status.success {
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-      color: #047857;
-    }
+        .message.success {
+            background: #ecfdf3;
+            border: 1px solid #a7f3d0;
+            color: #047857;
+        }
 
-    .status.error {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      color: #b91c1c;
-    }
+        .message.error {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #b91c1c;
+        }
 
-    .status.loading {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1d4ed8;
-    }
+        .message.loading {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1d4ed8;
+        }
 
-    .status-title {
-      font-weight: bold;
-      margin-bottom: 8px;
-      font-size: 15px;
-    }
+        .payment-area {
+            margin-top: 18px;
+        }
 
-    .id-box {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 10px;
-      margin-top: 15px;
-      font-size: 11px;
-      color: #64748b;
-      word-break: break-all;
-    }
+        .pix-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
 
-    .pix-box {
-      margin-top: 20px;
-      text-align: center;
-    }
+        .pix-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
 
-    .pix-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+        .pix-code {
+            width: 100%;
+            min-height: 90px;
+            resize: vertical;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 12px;
+            background: white;
+            color: #334155;
+        }
 
-    .pix-code {
-      width: 100%;
-      min-height: 120px;
-      resize: vertical;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 12px;
-      font-family: monospace;
-      background: #f9fafb;
-    }
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #111827;
+            color: white;
+        }
 
-    .copy-button {
-      width: 100%;
-      border: 0;
-      border-radius: 10px;
-      padding: 14px;
-      margin-top: 10px;
-      background: #111827;
-      color: white;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+        button:hover {
+            opacity: 0.92;
+        }
 
-    .copy-button:hover {
-      background: #000;
-    }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
-    .footer {
-      text-align: center;
-      color: #888;
-      font-size: 12px;
-      margin-top: 18px;
-    }
+        .id-box {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            border-radius: 8px;
+            font-size: 11px;
+            color: #64748b;
+            word-break: break-all;
+        }
 
-    .hidden {
-      display: none;
-    }
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 18px;
+        }
 
-    .spinner {
-      display: inline-block;
-      width: 15px;
-      height: 15px;
-      border: 2px solid rgba(29, 78, 216, 0.25);
-      border-top-color: #1d4ed8;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
+        .hidden {
+            display: none !important;
+        }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .card {
+                padding: 25px 17px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            .price {
+                font-size: 29px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
     <div class="card">
 
-      <div class="logo">📦</div>
+        <div class="icon">📦</div>
 
-      <h1>Finalize seu voto</h1>
+        <h1>Finalize seu voto</h1>
 
-      <div class="subtitle">
-        Faça o pagamento de <strong>R$ 5,00</strong> via PIX
-        para confirmar sua participação.
-      </div>
+        <p class="subtitle">
+            Faça o pagamento de <strong>R$ 5,00</strong> via PIX
+            para confirmar sua participação.
+        </p>
 
-      <!-- ESCOLHA -->
-      <div class="choice-box">
-        <div class="choice-label">
-          Sua escolha
+        <div class="choice-box">
+
+            <span class="choice-label">
+                Sua escolha
+            </span>
+
+            <span
+                id="choiceName"
+                class="choice-name">
+                Carregando...
+            </span>
+
         </div>
 
-        <div class="choice" id="choice">
-          Carregando...
-        </div>
-      </div>
-
-      <!-- VALOR -->
-      <div class="price-label">
-        Valor para confirmar o voto
-      </div>
-
-      <div class="price">
-        R$ 5,00
-      </div>
-
-      <!-- STATUS -->
-      <div id="status" class="status loading">
-        <div class="status-title">
-          <span class="spinner"></span>
-          Processando...
+        <div class="price-label">
+            Valor para confirmar o voto
         </div>
 
-        <div id="statusMessage">
-          Identificando sua escolha.
-        </div>
-      </div>
-
-      <!-- IDENTIFICADOR -->
-      <div class="id-box">
-        <strong>payment_option_id:</strong>
-        <div id="paymentOptionId">
-          -
-        </div>
-      </div>
-
-      <!-- PIX -->
-      <div id="pixBox" class="pix-box hidden">
-
-        <div class="pix-title">
-          PIX para pagamento
+        <div class="price">
+            R$ 5,00
         </div>
 
-        <textarea
-          id="pixCode"
-          class="pix-code"
-          readonly
-          placeholder="O código PIX aparecerá aqui."
-        ></textarea>
+        <div
+            id="loadingMessage"
+            class="message loading">
+            Verificando sua escolha...
+        </div>
 
-        <button
-          id="copyButton"
-          class="copy-button"
-          type="button"
-          onclick="copiarPix()"
-        >
-          Copiar código PIX
-        </button>
+        <div
+            id="errorMessage"
+            class="message error hidden">
 
-      </div>
+            <strong id="errorTitle">
+                Não foi possível gerar o pagamento.
+            </strong>
+
+            <div id="errorText" style="margin-top:10px;">
+                Nenhuma opção de voto foi informada.
+            </div>
+
+        </div>
+
+        <div
+            id="successMessage"
+            class="message success hidden">
+
+            <strong>Escolha recebida corretamente!</strong>
+
+            <div style="margin-top:8px;">
+                O sistema recebeu o identificador da sua escolha.
+            </div>
+
+        </div>
+
+        <div
+            id="paymentArea"
+            class="payment-area hidden">
+
+            <!--
+                A área abaixo será preenchida quando
+                a API de pagamento retornar os dados do PIX.
+            -->
+
+            <div
+                id="pixBox"
+                class="pix-box hidden">
+
+                <div class="pix-title">
+                    PIX para pagamento
+                </div>
+
+                <textarea
+                    id="pixCode"
+                    class="pix-code"
+                    readonly></textarea>
+
+                <button
+                    type="button"
+                    onclick="copiarPix()">
+                    Copiar código PIX
+                </button>
+
+            </div>
+
+        </div>
+
+        <div
+            id="idBox"
+            class="id-box hidden">
+
+            <strong>payment_option_id recebido:</strong>
+
+            <div
+                id="choiceId"
+                style="margin-top:5px;">
+            </div>
+
+        </div>
 
     </div>
 
     <div class="footer">
-      Pagamento processado via PIX.
+        Pagamento processado via PIX.
     </div>
 
-  </div>
+</div>
 
 
-  <script>
+<script>
 
     /*
-     * ==========================================================
-     * CONFIGURAÇÃO
-     * ==========================================================
+    ============================================================
+    CONFIGURAÇÃO
+    ============================================================
+    */
+
+    /*
+     * IMPORTANTE:
      *
-     * NÃO coloque a chave secreta da Asaas neste arquivo.
-     *
-     * Se você já possui uma API/Edge Function responsável por
-     * criar o pagamento, coloque a URL dela aqui.
+     * Se você já possui uma URL de backend/API que gera
+     * o pagamento no Asaas, coloque-a aqui.
      *
      * Exemplo:
      *
      * const PAYMENT_API_URL =
-     *   "https://SEU-PROJETO.supabase.co/functions/v1/criar-pagamento";
+     *     "https://seu-backend.com/api/criar-pagamento";
      *
+     * NÃO coloque a chave secreta do Asaas neste HTML.
      */
 
     const PAYMENT_API_URL = "";
 
 
     /*
-     * ==========================================================
-     * IDENTIFICADORES DAS OPÇÕES
-     * ==========================================================
-     *
-     * Estes identificadores vêm do Tally através de:
-     *
-     * ?payment_option_id=@payment_option_id
-     *
-     */
+    ============================================================
+    MAPA DAS OPÇÕES
+    ============================================================
+    */
 
     const OPTIONS = {
 
-      lula: {
-        id: "9823e037-4045-40dd-8b5f-a183ea4cdc44",
-        name: "LULA"
-      },
+        "9823e037-4045-40dd-8b5f-a183ea4cd44c":
+            "LULA",
 
-      flavio: {
-        /*
-         * O início do ID aparece no seu Tally.
-         * O restante pode ser completado automaticamente
-         * porque usamos startsWith().
-         */
-        prefix: "1b457898-2a19-4342-a5f6-2a867b07",
-        name: "FLÁVIO BOLSONARO"
-      },
+        "1b457898-2a19-4342-a5f6-2a867b07":
+            "FLÁVIO BOLSONARO",
 
-      renan: {
-        prefix: "4debd19b-bf23-4a04-ae44-daa9c05f",
-        name: "RENAN SANTOS"
-      }
+        "4debd19b-bf23-4a04-ae44-daa9c05f":
+            "RENAN SANTOS"
 
     };
 
 
     /*
-     * ==========================================================
-     * LER PARÂMETROS DA URL
-     * ==========================================================
-     */
+    ============================================================
+    ELEMENTOS
+    ============================================================
+    */
 
-    const params = new URLSearchParams(window.location.search);
+    const choiceName =
+        document.getElementById("choiceName");
 
-    const paymentOptionId =
-      params.get("payment_option_id") ||
-      params.get("paymentOptionId") ||
-      params.get("option_id") ||
-      "";
+    const loadingMessage =
+        document.getElementById("loadingMessage");
 
+    const errorMessage =
+        document.getElementById("errorMessage");
 
-    /*
-     * Também aceitamos "choice" caso posteriormente
-     * você queira enviar diretamente o nome pelo Tally.
-     *
-     * Exemplo:
-     *
-     * ?payment_option_id=...&choice=LULA
-     */
+    const errorText =
+        document.getElementById("errorText");
 
-    const directChoice =
-      params.get("choice") ||
-      params.get("vote") ||
-      params.get("escolha") ||
-      "";
+    const successMessage =
+        document.getElementById("successMessage");
 
+    const paymentArea =
+        document.getElementById("paymentArea");
 
-    /*
-     * ==========================================================
-     * ELEMENTOS
-     * ==========================================================
-     */
+    const idBox =
+        document.getElementById("idBox");
 
-    const choiceElement =
-      document.getElementById("choice");
-
-    const statusElement =
-      document.getElementById("status");
-
-    const statusMessageElement =
-      document.getElementById("statusMessage");
-
-    const paymentOptionIdElement =
-      document.getElementById("paymentOptionId");
-
-    const pixBox =
-      document.getElementById("pixBox");
-
-    const pixCode =
-      document.getElementById("pixCode");
+    const choiceId =
+        document.getElementById("choiceId");
 
 
     /*
-     * ==========================================================
-     * DESCOBRIR A ESCOLHA
-     * ==========================================================
-     */
+    ============================================================
+    FUNÇÃO PARA OBTER PARÂMETROS DA URL
+    ============================================================
+    */
 
-    function getChoice(id) {
+    function getUrlParameter(name) {
 
-      /*
-       * Se o Tally futuramente enviar diretamente o nome,
-       * damos preferência a ele.
-       */
+        const url =
+            new URL(window.location.href);
 
-      if (directChoice) {
+        /*
+         * Forma normal:
+         *
+         * ?payment_option_id=XXXXX
+         */
 
-        return decodeURIComponent(directChoice)
-          .trim()
-          .toUpperCase();
+        let value =
+            url.searchParams.get(name);
 
-      }
-
-
-      /*
-       * LULA
-       */
-
-      if (id === OPTIONS.lula.id) {
-
-        return OPTIONS.lula.name;
-
-      }
+        if (value) {
+            return decodeURIComponent(value).trim();
+        }
 
 
-      /*
-       * FLÁVIO BOLSONARO
-       */
+        /*
+         * Algumas plataformas podem enviar os parâmetros
+         * depois do #.
+         */
 
-      if (
-        OPTIONS.flavio.prefix &&
-        id.startsWith(OPTIONS.flavio.prefix)
-      ) {
+        const hash =
+            window.location.hash;
 
-        return OPTIONS.flavio.name;
+        if (hash) {
 
-      }
+            const hashText =
+                hash.startsWith("#")
+                    ? hash.substring(1)
+                    : hash;
 
+            const hashParams =
+                new URLSearchParams(hashText);
 
-      /*
-       * RENAN SANTOS
-       */
+            value =
+                hashParams.get(name);
 
-      if (
-        OPTIONS.renan.prefix &&
-        id.startsWith(OPTIONS.renan.prefix)
-      ) {
-
-        return OPTIONS.renan.name;
-
-      }
+            if (value) {
+                return decodeURIComponent(value).trim();
+            }
+        }
 
 
-      return null;
+        return null;
     }
 
 
     /*
-     * ==========================================================
-     * ATUALIZAR INTERFACE
-     * ==========================================================
-     */
+    ============================================================
+    NORMALIZAÇÃO DO ID
+    ============================================================
+    */
+
+    function normalizeId(id) {
+
+        if (!id) {
+            return null;
+        }
+
+        return String(id)
+            .trim()
+            .replace(/^['"]|['"]$/g, "")
+            .toLowerCase();
+
+    }
+
+
+    /*
+    ============================================================
+    DESCOBRIR O VOTO
+    ============================================================
+    */
+
+    function getChoiceName(id) {
+
+        const normalized =
+            normalizeId(id);
+
+        if (!normalized) {
+            return null;
+        }
+
+
+        /*
+         * Primeiro tenta encontrar pelo UUID completo.
+         */
+
+        if (OPTIONS[normalized]) {
+            return OPTIONS[normalized];
+        }
+
+
+        /*
+         * Também aceita os IDs completos mesmo se você
+         * trocar os nomes posteriormente.
+         */
+
+        for (
+            const key of Object.keys(OPTIONS)
+        ) {
+
+            if (
+                key.toLowerCase() ===
+                normalized
+            ) {
+
+                return OPTIONS[key];
+
+            }
+
+        }
+
+
+        return null;
+    }
+
+
+    /*
+    ============================================================
+    MOSTRAR ERRO
+    ============================================================
+    */
 
     function showError(message) {
 
-      statusElement.className =
-        "status error";
+        loadingMessage.classList.add("hidden");
 
-      statusElement.innerHTML = `
-        <div class="status-title">
-          Não foi possível continuar.
-        </div>
+        successMessage.classList.add("hidden");
 
-        <div>
-          ${message}
-        </div>
-      `;
-    }
+        paymentArea.classList.add("hidden");
 
+        errorMessage.classList.remove("hidden");
 
-    function showSuccess(message) {
+        errorText.textContent = message;
 
-      statusElement.className =
-        "status success";
-
-      statusElement.innerHTML = `
-        <div class="status-title">
-          Escolha recebida corretamente!
-        </div>
-
-        <div>
-          ${message}
-        </div>
-      `;
-    }
-
-
-    function showLoading(message) {
-
-      statusElement.className =
-        "status loading";
-
-      statusElement.innerHTML = `
-        <div class="status-title">
-          <span class="spinner"></span>
-          Processando...
-        </div>
-
-        <div>
-          ${message}
-        </div>
-      `;
     }
 
 
     /*
-     * ==========================================================
-     * INICIALIZAÇÃO
-     * ==========================================================
-     */
+    ============================================================
+    MOSTRAR SUCESSO
+    ============================================================
+    */
 
-    async function iniciar() {
+    function showSuccess() {
 
-      /*
-       * Nenhuma opção enviada.
-       */
+        loadingMessage.classList.add("hidden");
 
-      if (!paymentOptionId && !directChoice) {
+        errorMessage.classList.add("hidden");
 
-        choiceElement.textContent =
-          "Nenhuma escolha";
+        successMessage.classList.remove("hidden");
 
-        showError(
-          "Nenhuma opção de voto foi informada. " +
-          "Volte ao formulário e selecione uma opção."
+        paymentArea.classList.remove("hidden");
+
+        idBox.classList.remove("hidden");
+
+    }
+
+
+    /*
+    ============================================================
+    GERAR PAGAMENTO
+    ============================================================
+    */
+
+    async function gerarPagamento(
+        paymentOptionId,
+        optionName
+    ) {
+
+        /*
+         * Se ainda não houver backend configurado,
+         * não tenta fazer uma requisição inexistente.
+         */
+
+        if (!PAYMENT_API_URL) {
+
+            console.log(
+                "Pagamento identificado:",
+                {
+                    payment_option_id:
+                        paymentOptionId,
+
+                    option:
+                        optionName,
+
+                    amount:
+                        5.00
+                }
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    PAYMENT_API_URL,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            payment_option_id:
+                                paymentOptionId,
+
+                            option:
+                                optionName,
+
+                            amount:
+                                5.00,
+
+                            description:
+                                "Voto - " +
+                                optionName
+
+                        })
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Erro HTTP " +
+                    response.status
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Resposta do pagamento:",
+                data
+            );
+
+
+            /*
+             * Aceita diferentes nomes de campos
+             * que o seu backend pode retornar.
+             */
+
+            const pixCode =
+                data.pixCode ||
+                data.pix_code ||
+                data.encodedImage ||
+                data.qrCode ||
+                data.qr_code ||
+                data.payload;
+
+
+            if (pixCode) {
+
+                document
+                    .getElementById("pixCode")
+                    .value = pixCode;
+
+                document
+                    .getElementById("pixBox")
+                    .classList.remove("hidden");
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Erro ao gerar pagamento:",
+                error
+            );
+
+            showError(
+                "O voto foi identificado, " +
+                "mas ocorreu um erro ao gerar " +
+                "o pagamento PIX."
+            );
+
+        }
+
+    }
+
+
+    /*
+    ============================================================
+    INICIALIZAÇÃO
+    ============================================================
+    */
+
+    async function init() {
+
+        /*
+         * O Tally está enviando:
+         *
+         * ?payment_option_id=UUID
+         */
+
+        const paymentOptionId =
+            getUrlParameter(
+                "payment_option_id"
+            );
+
+
+        console.log(
+            "URL atual:",
+            window.location.href
         );
 
-        return;
-      }
-
-
-      /*
-       * Exibir ID recebido.
-       */
-
-      paymentOptionIdElement.textContent =
-        paymentOptionId || "(enviado diretamente)";
-
-
-      /*
-       * Descobrir nome.
-       */
-
-      const choice =
-        getChoice(paymentOptionId);
-
-
-      /*
-       * Se conseguimos identificar.
-       */
-
-      if (choice) {
-
-        choiceElement.textContent =
-          choice;
-
-        showSuccess(
-          "O sistema recebeu o identificador da sua escolha. " +
-          "A próxima etapa será gerar o PIX."
-        );
-
-      }
-
-      /*
-       * Caso não reconheça o UUID.
-       */
-
-      else {
-
-        choiceElement.textContent =
-          "Opção selecionada";
-
-        showError(
-          "O identificador da escolha foi recebido, " +
-          "mas ainda não está associado a uma opção conhecida."
-        );
-
-        return;
-      }
-
-
-      /*
-       * ========================================================
-       * GERAÇÃO DO PAGAMENTO
-       * ========================================================
-       *
-       * Só executa se PAYMENT_API_URL estiver configurada.
-       */
-
-      if (!PAYMENT_API_URL) {
-
-        return;
-      }
-
-
-      try {
-
-        showLoading(
-          "Gerando seu pagamento PIX..."
+        console.log(
+            "payment_option_id recebido:",
+            paymentOptionId
         );
 
 
-        const response =
-          await fetch(PAYMENT_API_URL, {
+        /*
+         * Se não recebeu ID.
+         */
 
-            method: "POST",
+        if (!paymentOptionId) {
 
-            headers: {
-              "Content-Type": "application/json"
-            },
+            choiceName.textContent =
+                "Não informado";
 
-            body: JSON.stringify({
+            showError(
+                "Nenhuma opção de voto foi informada."
+            );
 
-              payment_option_id:
-                paymentOptionId,
+            return;
 
-              choice:
-                choice,
-
-              amount:
-                5.00
-
-            })
-
-          });
+        }
 
 
-        const data =
-          await response.json();
+        const normalizedId =
+            normalizeId(
+                paymentOptionId
+            );
 
 
-        if (!response.ok) {
+        const optionName =
+            getChoiceName(
+                normalizedId
+            );
 
-          throw new Error(
-            data?.error ||
-            data?.message ||
-            "Erro ao gerar o pagamento."
-          );
+
+        /*
+         * ID desconhecido.
+         */
+
+        if (!optionName) {
+
+            choiceName.textContent =
+                "Opção desconhecida";
+
+            showError(
+                "O identificador da opção de voto " +
+                "não corresponde a nenhuma opção cadastrada."
+            );
+
+            choiceId.textContent =
+                paymentOptionId;
+
+            idBox.classList.remove(
+                "hidden"
+            );
+
+            return;
 
         }
 
 
         /*
-         * Procuramos alguns nomes comuns de retorno
-         * para facilitar a integração com a função.
+         * Tudo certo.
          */
 
-        const pix =
-          data.pixCopyPaste ||
-          data.pix_copy_paste ||
-          data.pixCode ||
-          data.pix_code ||
-          data.qrCode ||
-          data.qr_code ||
-          data.payment?.pixCopyPaste ||
-          data.payment?.pix_copy_paste ||
-          "";
+        choiceName.textContent =
+            optionName;
+
+        choiceId.textContent =
+            paymentOptionId;
 
 
-        if (pix) {
-
-          pixCode.value = pix;
-
-          pixBox.classList.remove("hidden");
-
-          showSuccess(
-            "Pagamento PIX gerado. " +
-            "Copie o código abaixo e efetue o pagamento."
-          );
-
-        }
-
-        else {
-
-          showSuccess(
-            "Pagamento criado com sucesso. " +
-            "Aguarde as instruções de pagamento."
-          );
-
-        }
+        showSuccess();
 
 
-      }
+        /*
+         * Agora gera o pagamento.
+         */
 
-      catch (error) {
-
-        console.error(
-          "Erro ao gerar pagamento:",
-          error
+        await gerarPagamento(
+            normalizedId,
+            optionName
         );
-
-        showError(
-          error.message ||
-          "Não foi possível gerar o pagamento PIX."
-        );
-
-      }
 
     }
 
 
     /*
-     * ==========================================================
-     * COPIAR PIX
-     * ==========================================================
-     */
+    ============================================================
+    COPIAR PIX
+    ============================================================
+    */
 
     async function copiarPix() {
 
-      const code =
-        pixCode.value.trim();
+        const textarea =
+            document.getElementById(
+                "pixCode"
+            );
+
+        const code =
+            textarea.value.trim();
 
 
-      if (!code) {
-
-        return;
-
-      }
+        if (!code) {
+            return;
+        }
 
 
-      try {
+        try {
 
-        await navigator.clipboard.writeText(code);
+            await navigator.clipboard.writeText(
+                code
+            );
 
-        const button =
-          document.getElementById("copyButton");
+            alert(
+                "Código PIX copiado!"
+            );
 
-        const original =
-          button.textContent;
+        }
 
-        button.textContent =
-          "✓ PIX copiado!";
+        catch (error) {
 
-        setTimeout(() => {
+            textarea.select();
 
-          button.textContent =
-            original;
+            document.execCommand(
+                "copy"
+            );
 
-        }, 2000);
+            alert(
+                "Código PIX copiado!"
+            );
 
-      }
-
-      catch (error) {
-
-        pixCode.select();
-
-        document.execCommand("copy");
-
-      }
+        }
 
     }
 
 
     /*
-     * ==========================================================
-     * EXECUTAR
-     * ==========================================================
-     */
+    ============================================================
+    INICIAR
+    ============================================================
+    */
 
-    iniciar();
+    init();
 
-  </script>
+</script>
 
 </body>
 </html>
-```
